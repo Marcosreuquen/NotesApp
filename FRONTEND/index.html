@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="http://fonts.gstatic.com" />
+    <title>To-do App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css"
+    />
+    <link rel="stylesheet" href="index.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Quicksand:300,regular,500,600,700&&family=Open+Sans:300,300italic,regular,italic,600,600italic,700,700italic,800,800italic"
+      rel="stylesheet"
+    />
+    <script async src="./index.js"></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="navbar is-dark">
+        <a class="navbar-item" href="#add-note">Add new Note</a>
+        <a class="navbar-item" href="#subtitle-important">Important</a>
+        <a class="navbar-item" href="#subtitle-no-important">No important</a>
+        <a class="navbar-item" href="#subtitle-done">Done</a>
+      </div>
+      <div>
+        <h1 class="title is-1">Welcome to your notes...</h1>
+      </div>
+    </header>
+    <section class="main-section" id="main-section">
+      <div class="main-container">
+        <div class="notes-container notes__important">
+          <h3
+            class="notes__important__subtitle subtitle"
+            id="subtitle-important"
+          >
+            IMPORTANT
+          </h3>
+        </div>
+        <div class="notes-container notes__no-important">
+          <h3
+            class="notes__no-important__subtitle subtitle"
+            id="subtitle-no-important"
+          >
+            NO IMPORTANT
+          </h3>
+        </div>
+        <div class="notes-container notes__done">
+          <h3 class="notes__done__subtitle subtitle" id="subtitle-done">
+            DONE
+          </h3>
+        </div>
+      </div>
+
+      <template id="template-note-box">
+        <div class="card note-box">
+          <div class="note-box__header card-header">
+            <p class="note-box__id">ID: id</p>
+          </div>
+          <p class="note-box__date">date</p>
+
+          <p class="card-content note-box__content">content:</p>
+          <p class="note-box__important">important: !</p>
+          <div class="buttons-box">
+            <button class="button button__done">
+              <img
+                src="https://icongr.am/octicons/check-circle.svg?size=128&color=currentColor"
+                alt="Done"
+                class="button__img"
+              />
+            </button>
+            <button class="button button__delete">
+              <img
+                src="https://icongr.am/octicons/x-circle.svg?size=128&color=currentColor"
+                alt="Delete"
+                class="button__img"
+              />
+            </button>
+            <button class="button button__make-important">
+              <img
+                src="https://icongr.am/octicons/issue-opened.svg?size=128&color=currentColor"
+                alt="Important"
+                class="button__img"
+              />
+            </button>
+          </div>
+        </div>
+      </template>
+    </section>
+    <section class="section section__add-note">
+      <div class="add-note" id="add-note">
+        <h3 class="title add-note__title">Add a new Note!</h3>
+
+        <form class="field add-new-note">
+          <label class="label-input" for="content">
+            <span class="label span-form">Content:</span>
+            <textarea
+              class="textarea input-form"
+              name="content"
+              cols="30"
+              rows="10"
+            ></textarea>
+          </label>
+          <label class="label label-input" for="important">
+            <span class="span-form">Important:</span>
+            <select
+              class="select input input-form"
+              name="important"
+              id="important"
+            >
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </label>
+          <button class="button is-link add-note-submit">Add Note</button>
+        </form>
+      </div>
+      <a class="go-up" href="#main-section">
+        <span>Home</span>
+      </a>
+    </section>
+    <footer class="footer">
+      <nav class="links-externos">
+        <a
+          class="link-redes-sociales"
+          href="http://www.instagram.com/marcosreuquen"
+        >
+          <img
+            class="logo-redes-sociales"
+            src="./assets/instagram.svg"
+            alt="instagram"
+          />
+        </a>
+        <a
+          class="link-redes-sociales"
+          href="https://www.linkedin.com/in/marcos-reuquen-diaz-bbb18373"
+        >
+          <img
+            class="logo-redes-sociales"
+            src="./assets/linkedin.svg"
+            alt="Linkedin"
+          />
+        </a>
+        <a class="link-redes-sociales" href="https://github.com/Marcosreuquen">
+          <img
+            class="logo-redes-sociales"
+            src="./assets/github.svg"
+            alt="Github"
+          />
+        </a>
+      </nav>
+      <a
+        class="copyright"
+        href="https://marcosreuquen.github.io/apx-desafio-m3/"
+      >
+        © 2021 Marcos Reuquén Diaz
+      </a>
+    </footer>
+  </body>
+</html>
