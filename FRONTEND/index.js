@@ -33,8 +33,7 @@ function addNewNote(obj) {
     },
     method: "POST",
     body: JSON.stringify(obj),
-  }).then(() => "Se agregó con éxito");
-  window.location.reload(true);
+  }).then(() => window.location.reload(true));
 }
 
 function deleteListener() {
@@ -45,8 +44,7 @@ function deleteListener() {
       const idDelEvento = note.querySelector(".note-box__id").textContent;
       fetch(`http://localhost:3001/api/todo/${idDelEvento}`, {
         method: "DELETE",
-      });
-      window.location.reload(true);
+      }).then(() => window.location.reload(true));
     });
   }
 }
@@ -60,8 +58,7 @@ function makeImportantListener() {
 
       fetch(`http://localhost:3001/api/todo/${idDelEvento}`, {
         method: "POST",
-      });
-      window.location.reload(true);
+      }).then(() => window.location.reload(true));
     });
   }
 }
@@ -75,8 +72,7 @@ function itsDoneListener() {
 
       fetch(`http://localhost:3001/api/todo/${idDelEvento}`, {
         method: "PUT",
-      });
-      window.location.reload(true);
+      }).then(() => window.location.reload(true));
     });
   }
 }
@@ -100,6 +96,7 @@ function itsDoneListener() {
         content: evento.target.content.value,
         important: evento.target.important.value,
       };
+      console.log(obj);
       addNewNote(obj);
     });
 })();

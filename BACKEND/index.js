@@ -1,14 +1,6 @@
-const toDo = require("./todo.json");
 const express = require("express");
 const cors = require("cors");
-const fs = require("fs");
-
-function generateId() {
-  const notesIds = toDo.map((n) => n.id);
-  const maxId = notesIds.length ? Math.max(...notesIds) : 0;
-  const newId = maxId + 1;
-  return newId;
-}
+const model = require("./model");
 
 function main() {
   //Create the app
@@ -23,31 +15,35 @@ function main() {
 
   //requests on API response the json
   app.get("/api/todo", (request, response) => {
-    response.json(toDo);
+    model.getAll().then((res) => {
+      return response.json(res);
+    });
   });
 
   //query id number on GET response the item-ID
   app.get("/api/todo/:id", (request, response) => {
     const id = Number(request.params.id);
-    const task = toDo.find((item) => item.id === id);
-    if (task) {
-      response.send(task);
-    } else {
-      response.status(404).end();
-    }
+    model.getById(id).then((res) => {
+      if (res) {
+        return response.send(res);
+      } else {
+        return response.status(404).json({
+          status: "id not found",
+        });
+      }
+    });
   });
 
   //query id number on DELETE pops the item-ID and response 204 status
   app.delete("/api/todo/:id", (request, response) => {
     const id = Number(request.params.id);
-    notes = toDo.filter((note) => note.id !== id);
-    data = JSON.stringify(notes);
-    fs.writeFile("./todo.json", data, (err) => {
+    model.deleteByID(id).then((res, err) => {
       if (err) {
-        response.status(404).end();
+        return response.status(404).end();
+      } else {
+        return response.status(204).end();
       }
     });
-    response.status(204).end();
   });
 
   //query object on body on POST push the object to json and response the JSON
@@ -58,55 +54,37 @@ function main() {
         error: 'required "content" field is missing',
       });
     }
-    const newNote = {
-      id: generateId(),
-      content: note.content,
-      date: new Date(),
-      important: note.important || false,
-    };
-    var data = toDo.concat(newNote);
-    data = JSON.stringify(data);
-    fs.writeFile("./todo.json", data, (err) => {
+    model.addOneNote(note).then((res, err) => {
       if (err) {
-        response.status(404).end();
+        return response.status(404).end();
+      } else {
+        return response.status(204).json({
+          status: "note added succesfully",
+        });
       }
     });
   });
 
+  //MAKE IMPORTANT
   app.post("/api/todo/:id", (request, response) => {
     const id = Number(request.params.id);
-    let note = toDo.find((note) => note.id === id);
-    let notes = toDo.filter((note) => note.id !== id);
-    if (note.important === true) {
-      note.important = false;
-    } else {
-      note.important = true;
-    }
-
-    notes = notes.concat(note);
-    data = JSON.stringify(notes);
-
-    fs.writeFile("./todo.json", data, (err) => {
+    model.makeImportant(id).then((res, err) => {
       if (err) {
-        response.status(404).end();
+        return response.status(404).end();
+      } else {
+        return response.status(200).json({
+          status: "se modificó el campo solicitado",
+        });
       }
     });
-    response.status(204).end();
   });
 
+  //MAKE ITS DONE
   app.put("/api/todo/:id", (request, response) => {
     const id = Number(request.params.id);
-    let noteDone = toDo.find((note) => note.id === id);
-    let notes = toDo.filter((note) => note.id !== id);
-
-    noteDone.important = "done";
-
-    var data = notes.concat(noteDone);
-    data = JSON.stringify(data);
-
-    fs.writeFile("./todo.json", data, (err) => {
+    model.itsDone(id).then((res, err) => {
       if (err) {
-        response.status(404).end();
+        return response.status(404).end();
       } else {
         return response.status(200).json({
           status: "se modificó el campo solicitado",
